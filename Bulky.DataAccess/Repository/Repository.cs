@@ -34,8 +34,7 @@ namespace BulkyBook.DataAccess.Repository
         public T Get(Expression<Func<T, bool>> filter)
         {
             IQueryable<T> query = dbSet;
-            query.Where(filter);
-            return query.FirstOrDefault();
+            return query.Where(filter).FirstOrDefault();
         }
 
         public IEnumerable<T> GetAll()
