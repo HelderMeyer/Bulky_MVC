@@ -18,6 +18,13 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             List<Product> objProductList = _unitOfWork.Product.GetAll().ToList();
             return View(objProductList);
         }
+        public void verifyPrices(double obj, string objtype)
+        {
+            if(typeof(string) == obj.GetType())
+            {
+                ModelState.AddModelError(objtype, "The "+objtype+" value must be a number!");
+            }
+        }
         public IActionResult Create()
         {
             return View();
@@ -29,7 +36,11 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("description", "The Description cannot exactly match the Title.");
             }
-            if(ModelState.IsValid)
+            verifyPrices(obj.ListPrice, "listprice");
+            verifyPrices(obj.Price, "price");
+            verifyPrices(obj.Price50, "price50");
+            verifyPrices(obj.Price100, "price100");
+            if (ModelState.IsValid)
             {
                 _unitOfWork.Product.Add(obj);
                 _unitOfWork.Save();
